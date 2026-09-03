@@ -7,7 +7,6 @@
         <meta name="description" content="A vintage Nixie tube clock" />
         <meta name="theme-color" content="#000" />
         <link rel="shortcut icon" href="favicon.ico" />
-        <title>Nixie Clock</title>
         <style>
             *,
             *::before,
@@ -165,7 +164,7 @@
                         return Promise.resolve(this);
                     }
 
-                    return loadImage(`src/assets/${this.imgName}`).then(
+                    return loadImage(`https://nixie.mem.red/src/assets/${this.imgName}`).then(
                         (img) => {
                             this.inner = img;
                             return this;
@@ -351,8 +350,8 @@
 
                 drawMeridiem(ctx, size, text) {
                     ctx.save();
-                    const fontSize = 20;
-                    ctx.globalAlpha = 0.35;
+                    const fontSize = Math.max(16, this.mainCanvas.width * 0.025);
+                    ctx.globalAlpha = 0.5;
                     ctx.font = `${fontSize}px sans-serif`;
                     ctx.fillStyle = "gray";
                     const w = ctx.measureText(text).width;
@@ -416,7 +415,27 @@
 
                     if (this.assetsLoaded) {
                         this.draw(new Date());
+                    } else {
+                        this.drawLoadingMessage();
                     }
+                }
+
+                drawLoadingMessage() {
+                    const ctx = this.mainCanvas.getContext("2d");
+                    const { width, height } = this.mainCanvas;
+                    const fontSize = Math.max(12, width * 0.025);
+
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.font = `${fontSize}px monospace`;
+                    ctx.fillStyle = "gray";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+
+                    ctx.fillText(
+                        "downloading assets...",
+                        width / 2,
+                        height / 2
+                    );
                 }
 
                 draw(time = new Date()) {
