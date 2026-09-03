@@ -350,7 +350,8 @@
 
                 drawMeridiem(ctx, size, text) {
                     ctx.save();
-                    const fontSize = Math.max(16, this.mainCanvas.width * 0.025);
+                    const { width, height } = this.mainCanvas;
+                    const fontSize = Math.max(16, Math.min(width, height) * 0.025);
                     ctx.globalAlpha = 0.5;
                     ctx.font = `${fontSize}px sans-serif`;
                     ctx.fillStyle = "gray";
@@ -423,7 +424,7 @@
                 drawLoadingMessage() {
                     const ctx = this.mainCanvas.getContext("2d");
                     const { width, height } = this.mainCanvas;
-                    const fontSize = Math.max(12, width * 0.025);
+                    const fontSize = Math.max(12, Math.min(width, height) * 0.025);
 
                     ctx.clearRect(0, 0, width, height);
                     ctx.font = `${fontSize}px monospace`;
