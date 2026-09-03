@@ -350,17 +350,20 @@
 
                 drawMeridiem(ctx, size, text) {
                     ctx.save();
+
                     const { width, height } = this.mainCanvas;
                     const fontSize = Math.max(16, Math.min(width, height) * 0.025);
                     ctx.globalAlpha = 0.5;
                     ctx.font = `${fontSize}px sans-serif`;
                     ctx.fillStyle = "gray";
-                    const w = ctx.measureText(text).width;
+                    ctx.textAlign = "center";
+
                     ctx.fillText(
                         text,
-                        size.width / 2 - w / 2,
+                        size.width / 2,
                         size.height * 0.12 + fontSize / 2,
                     );
+
                     ctx.restore();
                 }
 
